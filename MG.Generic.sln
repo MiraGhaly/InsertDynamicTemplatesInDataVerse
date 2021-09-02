@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Plugins.Email.InsertTemplate", "MG.Plugins.Email.InsertTemplate\MG.Plugins.Email.InsertTemplate.csproj", "{363BD405-13B8-48FB-AC90-3487D5E168D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Generic.Helper", "MG.Generic.Helper\MG.Generic.Helper.csproj", "{ACFB9FD8-7713-44ED-84BE-678B145AB02F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplateTester", "TemplateTester\TemplateTester.csproj", "{372E3846-1557-409A-9F44-20F02B74EE70}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Javascript", "Javascript", "{8B728985-C516-41EB-ADEF-993FFCA61696}"
+	ProjectSection(SolutionItems) = preProject
+		tg_InsertTemplate.js = tg_InsertTemplate.js
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{363BD405-13B8-48FB-AC90-3487D5E168D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{363BD405-13B8-48FB-AC90-3487D5E168D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{363BD405-13B8-48FB-AC90-3487D5E168D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{363BD405-13B8-48FB-AC90-3487D5E168D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACFB9FD8-7713-44ED-84BE-678B145AB02F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACFB9FD8-7713-44ED-84BE-678B145AB02F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACFB9FD8-7713-44ED-84BE-678B145AB02F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACFB9FD8-7713-44ED-84BE-678B145AB02F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{372E3846-1557-409A-9F44-20F02B74EE70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{372E3846-1557-409A-9F44-20F02B74EE70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{372E3846-1557-409A-9F44-20F02B74EE70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{372E3846-1557-409A-9F44-20F02B74EE70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E85E077-3DBA-4574-8F87-4939A0488570}
+	EndGlobalSection
+EndGlobal
