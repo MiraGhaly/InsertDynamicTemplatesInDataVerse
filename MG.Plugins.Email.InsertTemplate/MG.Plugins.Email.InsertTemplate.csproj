@@ -98,8 +98,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\MG.Generic.Helper\MessageHelper.cs">
+      <Link>MessageHelper.cs</Link>
+    </Compile>
     <Compile Include="InsertTemplate.cs" />
-    <Compile Include="MessageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

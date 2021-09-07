@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Javascript", "Javascript", "{8B728985-C516-41EB-ADEF-993FFCA61696}"
 	ProjectSection(SolutionItems) = preProject
 		tg_InsertTemplate.js = tg_InsertTemplate.js
+		XMLFile1.xml = XMLFile1.xml
 	EndProjectSection
 EndProject
 Global
