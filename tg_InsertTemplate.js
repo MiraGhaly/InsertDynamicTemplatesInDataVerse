@@ -32,8 +32,8 @@ function OpenInsertDialog(formContext) {
                     };
                     var navigationOptions = {
                         target: 2,
-                        width: 700, // value specified in pixel
-                        height: 600, // value specified in pixel
+                        width: 800, // value specified in pixel
+                        height: 700, // value specified in pixel
                         position: 1
                     };
                     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
@@ -62,8 +62,8 @@ function OpenInsertDialog(formContext) {
             };
             var navigationOptions = {
                 target: 2,
-                width: 700, // value specified in pixel
-                height: 600, // value specified in pixel
+                width: 800, // value specified in pixel
+                height: 700, // value specified in pixel
                 position: 1
             };
             Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(

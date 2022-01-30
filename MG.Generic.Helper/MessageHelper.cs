@@ -19,7 +19,7 @@ namespace MG.Generic.Helper
             string dynamicValue = string.Empty;
             string type = string.Empty;
             int indexToContinue = 0;
-
+            string format = string.Empty;
             for (int i = 0; i < message.Length; i++)
             {
                 currChar = message[i];
@@ -50,13 +50,23 @@ namespace MG.Generic.Helper
                         {
                             lookupName = splitedDynamicValue[1];
                             fieldName = splitedDynamicValue[2];
-                            fieldValue = GetLookupValue(lookupName, fieldName, svc, primaryEntity).ToString();
+                            if (fieldName.Contains("#"))
+                            {
+                                fieldName = fieldName.Split("#".ToCharArray())[0];
+                                format = fieldName.Split("#".ToCharArray())[1];
+                                fieldValue = GetLookupValue(lookupName, fieldName, format, svc, primaryEntity).ToString();
+                            }
+                               
+                            else
+                                fieldValue = GetLookupValue(lookupName, fieldName, format, svc, primaryEntity).ToString();
                         }
 
                         else if (type == "env")
                         {
                             fieldName = splitedDynamicValue[1];
                             fieldValue = "Coming Soon!";
+
+                            //Query Envirnoment Variables
                         }
                             
                         
@@ -65,7 +75,17 @@ namespace MG.Generic.Helper
                     else
                     {
                         fieldName = dynamicValue;
-                        fieldValue = GetFieldValue(fieldName, svc, primaryEntity).ToString();
+                        if (fieldName.Contains("#"))
+                        {
+                            fieldName = fieldName.Split("#".ToCharArray())[0];
+                            format = fieldName.Split("#".ToCharArray())[1];
+
+                            fieldValue = GetFieldValue(fieldName, format, svc, primaryEntity).ToString();
+                        }
+                        else
+                        {
+                            fieldValue = GetFieldValue(fieldName, format, svc, primaryEntity).ToString();
+                        }
                     }
 
                     finalMessageOut += fieldValue;// + ' ';
@@ -75,7 +95,7 @@ namespace MG.Generic.Helper
                     fieldValue = string.Empty;
                     lookupName = string.Empty;
                     type = string.Empty;
-
+                    format = string.Empty;
                     //indexToContinue++;
 
                     if (indexToContinue > message.Length)
@@ -87,7 +107,7 @@ namespace MG.Generic.Helper
 
             return finalMessageOut;
         }
-        private static string GetFieldValue(string fieldName, IOrganizationService svc, EntityReference primaryEntity)
+        private static string GetFieldValue(string fieldName,string format, IOrganizationService svc, EntityReference primaryEntity)
         {
             Entity currEntity = new Entity();
             string fieldValue = string.Empty;
@@ -102,13 +122,13 @@ namespace MG.Generic.Helper
             currEntity = svc.Retrieve(primaryEntity.LogicalName, primaryEntity.Id, retrievedCols);
 
             if (currEntity.Attributes.Contains(fieldName))
-                fieldValue = GetFieldValueToString(currEntity, fieldName);
+                fieldValue = GetFieldValueToString(currEntity, fieldName,format);
             
 
             return fieldValue;
         }
 
-        private static string GetLookupValue(string lookupName, string fieldName, IOrganizationService svc, EntityReference primaryEntity)
+        private static string GetLookupValue(string lookupName, string fieldName,string format, IOrganizationService svc, EntityReference primaryEntity)
         {
             Entity currEntity = new Entity();
             string fieldValue = string.Empty;
@@ -133,7 +153,7 @@ namespace MG.Generic.Helper
                     });
                     Entity lookupEntity = svc.Retrieve(entityType, entityId, retrievedLookupCols);
 
-                    fieldValue = GetFieldValueToString(lookupEntity, fieldName);
+                    fieldValue = GetFieldValueToString(lookupEntity, fieldName,format);
                 }
 
 
@@ -142,7 +162,7 @@ namespace MG.Generic.Helper
 
             return fieldValue;
         }
-        private static string GetFieldValueToString(Entity entity, string fieldName)
+        private static string GetFieldValueToString(Entity entity, string fieldName,string format)
         {
             if (entity.Attributes.Contains(fieldName))
             {
@@ -169,6 +189,14 @@ namespace MG.Generic.Helper
 
                 else if (entity.Attributes[fieldName] is decimal) //Decimal
                     return ((decimal)entity.Attributes[fieldName]).ToString();
+
+                else if (entity.Attributes[fieldName] is DateTime)
+                {   //DateTime
+                    if (format != string.Empty)
+                        return ((DateTime)entity.Attributes[fieldName]).ToString(format);
+                    else
+                        return ((DateTime)entity.Attributes[fieldName]).ToString();
+                }
 
                 else if (entity.Attributes[fieldName] is Guid) //Guid
                     return ((Guid)entity.Attributes[fieldName]).ToString();

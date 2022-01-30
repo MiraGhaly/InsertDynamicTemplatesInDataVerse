@@ -26,6 +26,9 @@ namespace MG.Plugins.Email
             var templateId = Guid.Empty;
             Entity emailEntityPreImage = null;
             EntityReference regardingObjectId = null;
+
+            string templateSubject=string.Empty;
+            string templateDescription = string.Empty;
             try
             {
 
@@ -50,14 +53,40 @@ namespace MG.Plugins.Email
                     if (emailEntity.Attributes.Contains("tg_emailtemplate"))
                     {
                         templateId = ((EntityReference)emailEntity.Attributes["tg_emailtemplate"]).Id;
+
                     }
                     else
                     {
                         if(context.MessageName=="Update" && emailEntityPreImage.Attributes.Contains("tg_emailtemplate"))                      
                             templateId = ((EntityReference)emailEntityPreImage.Attributes["tg_emailtemplate"]).Id;
                     }
-                    tracingService.Trace("Entered Plugin+POINT 0");
-                    if ((emailEntity.Attributes.Contains("regardingobjectid") || (context.MessageName=="Update" && emailEntityPreImage.Attributes.Contains("regardingobjectid"))) && templateId!=Guid.Empty)
+                    //
+                    if (emailEntity.Attributes.Contains("tg_templatesubject"))
+                    {
+                        templateSubject = emailEntity.Attributes["tg_templatesubject"].ToString();
+
+                    }
+                    else
+                    {
+                        if (context.MessageName == "Update" && emailEntityPreImage.Attributes.Contains("tg_templatesubject"))
+                            templateSubject = emailEntityPreImage.Attributes["tg_templatesubject"].ToString();
+                    }
+
+                    if (emailEntity.Attributes.Contains("tg_templatedescription"))
+                    {
+                        templateDescription = emailEntity.Attributes["tg_templatedescription"].ToString();
+                        tracingService.Trace(templateDescription);
+
+                    }
+                    else
+                    {
+                        if (context.MessageName == "Update" && emailEntityPreImage.Attributes.Contains("tg_templatedescription"))
+                        {
+                            templateDescription = emailEntityPreImage.Attributes["tg_templatedescription"].ToString();
+                            tracingService.Trace(templateDescription);
+                        }
+                    }
+                    if ((emailEntity.Attributes.Contains("regardingobjectid") || (context.MessageName=="Update" && emailEntityPreImage.Attributes.Contains("regardingobjectid"))))
                     {
                         if(emailEntity.Attributes.Contains("regardingobjectid"))
                           regardingObjectId = (EntityReference)emailEntity.Attributes["regardingobjectid"];
@@ -68,13 +97,16 @@ namespace MG.Plugins.Email
                         tracingService.Trace("Point 2");
 
                         //Get Email template
-                        Entity emailTemplate = service.Retrieve("tg_emailtemplates", templateId, new ColumnSet("tg_emaildescription", "tg_emailsubject"));
+                       // Entity emailTemplate = service.Retrieve("tg_emailtemplates", templateId, new ColumnSet("tg_emaildescription", "tg_emailsubject"));
 
                         tracingService.Trace("Point 3");
 
-                        string description = MG.Generic.Helper.MessageHelper.GetMessageWithValues(primaryEntity, emailTemplate.Attributes["tg_emaildescription"].ToString(), service, tracingService);
-                        tracingService.Trace("Point 4");
+                        string description = MG.Generic.Helper.MessageHelper.GetMessageWithValues(primaryEntity,templateDescription, service, tracingService);
+                        string subject = MG.Generic.Helper.MessageHelper.GetMessageWithValues(primaryEntity, templateSubject, service, tracingService);
+
+                        tracingService.Trace("Point 4"+description);
                         emailEntity.Attributes["description"] = description + emailDescription;
+                        emailEntity.Attributes["subject"] = subject;
                     }
                   
                 }
